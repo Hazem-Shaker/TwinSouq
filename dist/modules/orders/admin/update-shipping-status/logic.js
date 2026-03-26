@@ -1,0 +1,59 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UpdateShippingStatusLogic = void 0;
+const order_model_1 = __importDefault(require("../../order.model"));
+const custom_errors_1 = require("../../../../shared/utils/custom-errors");
+const input_1 = require("./input");
+const mongoose_1 = __importDefault(require("mongoose"));
+class UpdateShippingStatusLogic {
+    constructor(earningService) {
+        this.earningService = earningService;
+    }
+    async update(input, language = "en") {
+        const session = await mongoose_1.default.startSession();
+        session.startTransaction();
+        try {
+            const { orderId, shippingStatus } = input_1.inputSchema.parse(input);
+            const order = await order_model_1.default.findById(orderId);
+            if (!order) {
+                throw new custom_errors_1.NotFoundError("order_not_found");
+            }
+            if (order.shippingStatus === "delivered") {
+                throw new custom_errors_1.ConflictError("order_already_delivered");
+            }
+            if (shippingStatus === "delivered") {
+                for (const product of order.products) {
+                    console.log(product);
+                    const profitAmount = (product.price * product.profitPercent) / 100.0;
+                    await this.earningService.createOrderEarning({
+                        provider: product.provider,
+                        amount: (product.price - profitAmount) * product.quantity,
+                        order: orderId,
+                        product: {
+                            id: product.id,
+                            variant: product.variant,
+                            price: product.price,
+                            quantity: product.quantity,
+                            profitPercent: product.profitPercent,
+                        },
+                        status: "pending",
+                    }, session);
+                }
+            }
+            await order_model_1.default.findByIdAndUpdate(orderId, { shippingStatus }, { new: true });
+            await session.commitTransaction();
+            return null;
+        }
+        catch (error) {
+            await session.abortTransaction();
+            throw error;
+        }
+        finally {
+            session.endSession();
+        }
+    }
+}
+exports.UpdateShippingStatusLogic = UpdateShippingStatusLogic;

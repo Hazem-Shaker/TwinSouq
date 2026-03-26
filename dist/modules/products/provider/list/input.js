@@ -1,0 +1,33 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.inputSchema = void 0;
+const zod_1 = require("zod");
+const custom_checckers_1 = require("../../../../shared/utils/custom-checckers");
+exports.inputSchema = zod_1.z.object({
+    provider: custom_checckers_1.mongoIdSchema.refine((value) => value, {
+        message: "provider_id_missing",
+    }),
+    pagination: zod_1.z.object({
+        limit: zod_1.z.number(),
+        skip: zod_1.z.number(),
+        page: zod_1.z.number(),
+    }),
+    query: zod_1.z.object({
+        query: zod_1.z.string().optional(),
+        archive: zod_1.z
+            .any()
+            .refine((val) => {
+            if (!val) {
+                return true;
+            }
+            return typeof val === "string" && ["true", "false"].includes(val);
+        }, {
+            message: "archive_wrong_value",
+        })
+            .transform((val) => {
+            if (!val)
+                return false;
+            return val === "true";
+        }),
+    }),
+});
