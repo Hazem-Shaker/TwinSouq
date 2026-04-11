@@ -28,12 +28,34 @@ export class OrderRouter {
   createRouter() {
     const router = Router();
 
+
+    /**
+     * @openapi
+     * /api/orders:
+     *   post:
+     *     tags: [Orders]
+     *     summary: POST /
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.post(
       "/",
       this.userAuthMiddleware.authenticate.bind(this.userAuthMiddleware),
       this.orderController.createOrders.bind(this.orderController)
     );
 
+
+    /**
+     * @openapi
+     * /api/orders/installments:
+     *   post:
+     *     tags: [Orders]
+     *     summary: POST /installments
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.post(
       "/installments",
       this.userAuthMiddleware.authenticate.bind(this.userAuthMiddleware),
@@ -55,6 +77,17 @@ export class OrderRouter {
       this.orderController.createInstallmentsOrder.bind(this.orderController)
     );
 
+
+    /**
+     * @openapi
+     * /api/orders/user:
+     *   get:
+     *     tags: [Orders]
+     *     summary: GET /user
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.get(
       "/user",
       this.userAuthMiddleware.authenticate.bind(this.userAuthMiddleware),
@@ -62,6 +95,17 @@ export class OrderRouter {
       this.orderController.listForUser.bind(this.orderController)
     );
 
+
+    /**
+     * @openapi
+     * /api/orders/user/installments:
+     *   get:
+     *     tags: [Orders]
+     *     summary: GET /user/installments
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.get(
       "/user/installments",
       this.userAuthMiddleware.authenticate.bind(this.userAuthMiddleware),
@@ -71,6 +115,17 @@ export class OrderRouter {
       )
     );
 
+
+    /**
+     * @openapi
+     * /api/orders/user/installments/:id:
+     *   get:
+     *     tags: [Orders]
+     *     summary: GET /user/installments/:id
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.get(
       "/user/installments/:id",
       this.userAuthMiddleware.authenticate.bind(this.userAuthMiddleware),
@@ -79,12 +134,34 @@ export class OrderRouter {
       )
     );
 
+
+    /**
+     * @openapi
+     * /api/orders/user/installments/pay:
+     *   post:
+     *     tags: [Orders]
+     *     summary: POST /user/installments/pay
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.post(
       "/user/installments/pay",
       this.userAuthMiddleware.authenticate.bind(this.userAuthMiddleware),
       this.orderController.payInstallments.bind(this.orderController)
     );
 
+
+    /**
+     * @openapi
+     * /api/orders/provider:
+     *   get:
+     *     tags: [Orders]
+     *     summary: GET /provider
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.get(
       "/provider",
       this.providerAuthMiddleware.authenticate.bind(
@@ -94,6 +171,17 @@ export class OrderRouter {
       this.orderController.listForProvider.bind(this.orderController)
     );
 
+
+    /**
+     * @openapi
+     * /api/orders/admin:
+     *   get:
+     *     tags: [Orders]
+     *     summary: GET /admin
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.get(
       "/admin",
       this.adminAuthMiddleware.authenticate.bind(this.adminAuthMiddleware),
@@ -101,12 +189,34 @@ export class OrderRouter {
       this.orderController.listForAdmin.bind(this.orderController)
     );
 
+
+    /**
+     * @openapi
+     * /api/orders/admin/:id:
+     *   patch:
+     *     tags: [Orders]
+     *     summary: PATCH /admin/:id
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.patch(
       "/admin/:id",
       this.adminAuthMiddleware.authenticate.bind(this.adminAuthMiddleware),
       this.orderController.updateShippingStatus.bind(this.orderController)
     );
 
+
+    /**
+     * @openapi
+     * /api/orders/provider/installments:
+     *   get:
+     *     tags: [Orders]
+     *     summary: GET /provider/installments
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.get(
       "/provider/installments",
       this.providerAuthMiddleware.authenticate.bind(
@@ -118,6 +228,17 @@ export class OrderRouter {
       )
     );
 
+
+    /**
+     * @openapi
+     * /api/orders/provider/installments/:id:
+     *   get:
+     *     tags: [Orders]
+     *     summary: GET /provider/installments/:id
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.get(
       "/provider/installments/:id",
       this.providerAuthMiddleware.authenticate.bind(
@@ -126,6 +247,17 @@ export class OrderRouter {
       this.orderController.getInstallmentsOrder.bind(this.orderController)
     );
 
+
+    /**
+     * @openapi
+     * /api/orders/provider/installments/:id:
+     *   patch:
+     *     tags: [Orders]
+     *     summary: PATCH /provider/installments/:id
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.patch(
       "/provider/installments/:id",
       this.providerAuthMiddleware.authenticate.bind(
@@ -134,6 +266,17 @@ export class OrderRouter {
       this.orderController.updateInstallmentsOrder.bind(this.orderController)
     );
 
+
+    /**
+     * @openapi
+     * /api/orders/provider/installments/:id:
+     *   delete:
+     *     tags: [Orders]
+     *     summary: DELETE /provider/installments/:id
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.delete(
       "/provider/installments/:id",
       this.providerAuthMiddleware.authenticate.bind(

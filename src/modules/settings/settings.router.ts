@@ -20,17 +20,50 @@ export class SettingRouter {
   createRouter() {
     const router = Router();
 
+
+    /**
+     * @openapi
+     * /api/settings/admin:
+     *   get:
+     *     tags: [Settings]
+     *     summary: GET /admin
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.get(
       "/admin",
       this.adminAuthMiddleware.authenticate.bind(this.adminAuthMiddleware),
       this.settingController.getSettingForAdmin.bind(this.settingController)
     );
 
+
+    /**
+     * @openapi
+     * /api/settings:
+     *   get:
+     *     tags: [Settings]
+     *     summary: GET /
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.get(
       "/",
       this.settingController.getSetting.bind(this.settingController)
     );
 
+
+    /**
+     * @openapi
+     * /api/settings:
+     *   put:
+     *     tags: [Settings]
+     *     summary: PUT /
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.put(
       "/",
       this.adminAuthMiddleware.authenticate.bind(this.adminAuthMiddleware),

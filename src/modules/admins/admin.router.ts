@@ -20,6 +20,17 @@ export class AdminRouter {
   createRouter() {
     const router = Router();
 
+
+    /**
+     * @openapi
+     * /api/admins/create:
+     *   post:
+     *     tags: [Admins]
+     *     summary: POST /create
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.post(
       "/create",
       upload.any(),
@@ -27,6 +38,17 @@ export class AdminRouter {
       this.adminController.createAdmin.bind(this.adminController)
     );
 
+
+    /**
+     * @openapi
+     * /api/admins/login:
+     *   post:
+     *     tags: [Admins]
+     *     summary: POST /login
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.post(
       "/login",
       upload.any(),

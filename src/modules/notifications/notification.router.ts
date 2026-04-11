@@ -22,6 +22,17 @@ export class NotificationRouter {
   createRouter() {
     const router = Router();
 
+
+    /**
+     * @openapi
+     * /api/notifications/user/token:
+     *   get:
+     *     tags: [Notifications]
+     *     summary: GET /user/token
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.get(
       "/user/token",
       this.userAuthMiddleware.authenticate.bind(this.userAuthMiddleware),
@@ -30,6 +41,17 @@ export class NotificationRouter {
       )
     );
 
+
+    /**
+     * @openapi
+     * /api/notifications/provider/token:
+     *   get:
+     *     tags: [Notifications]
+     *     summary: GET /provider/token
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.get(
       "/provider/token",
       this.providerAuthMiddleware.authenticate.bind(

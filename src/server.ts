@@ -1,4 +1,4 @@
-import appFactory from "./app"; // Import the app factory function
+import appFactory from './app'; // Import the app factory function
 
 // Create the app with a configuration object (e.g., isProd)
 const app = appFactory();
@@ -7,4 +7,5 @@ const app = appFactory();
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  console.log(`Swagger docs available at http://localhost:${PORT}/api-docs`);
 });

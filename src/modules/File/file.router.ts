@@ -20,6 +20,17 @@ export class FileRouter {
   createRouter() {
     const router = Router();
 
+
+    /**
+     * @openapi
+     * /api/File/test-cloudinary:
+     *   post:
+     *     tags: [File]
+     *     summary: POST /test-cloudinary
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.post(
       "/test-cloudinary",
       this.userAuthMiddleware.authenticate.bind(this.userAuthMiddleware),
@@ -33,6 +44,17 @@ export class FileRouter {
       }
     );
 
+
+    /**
+     * @openapi
+     * /api/File/delete-image/:fileId:
+     *   delete:
+     *     tags: [File]
+     *     summary: DELETE /delete-image/:fileId
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.delete(
       "/delete-image/:fileId",
       this.userAuthMiddleware.authenticate.bind(this.userAuthMiddleware),

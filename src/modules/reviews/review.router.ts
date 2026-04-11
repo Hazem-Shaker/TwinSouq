@@ -15,18 +15,51 @@ export class ReviewRouter {
   createRouter() {
     const router = Router();
 
+
+    /**
+     * @openapi
+     * /api/reviews:
+     *   get:
+     *     tags: [Reviews]
+     *     summary: GET /
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.get(
       "/",
       paginationMiddleware,
       this.reviewController.listReveiws.bind(this.reviewController)
     );
 
+
+    /**
+     * @openapi
+     * /api/reviews:
+     *   post:
+     *     tags: [Reviews]
+     *     summary: POST /
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.post(
       "/",
       this.userAuthMiddleware.authenticate.bind(this.userAuthMiddleware),
       this.reviewController.createReview.bind(this.reviewController)
     );
 
+
+    /**
+     * @openapi
+     * /api/reviews/stats:
+     *   get:
+     *     tags: [Reviews]
+     *     summary: GET /stats
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.get(
       "/stats",
 

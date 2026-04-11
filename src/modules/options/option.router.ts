@@ -44,12 +44,34 @@ export class OptionRouter {
         this.optionController.deleteOption.bind(this.optionController)
       );
 
+
+    /**
+     * @openapi
+     * /api/options/admin/categories/:categoryId:
+     *   get:
+     *     tags: [Options]
+     *     summary: GET /admin/categories/:categoryId
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.get(
       "/admin/categories/:categoryId",
       this.adminAuthMiddleware.authenticate.bind(this.adminAuthMiddleware),
       this.optionController.listByCategoryIdForAdmin.bind(this.optionController)
     );
 
+
+    /**
+     * @openapi
+     * /api/options/admin/:id:
+     *   get:
+     *     tags: [Options]
+     *     summary: GET /admin/:id
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.get(
       "/admin/:id",
       this.adminAuthMiddleware.authenticate.bind(this.adminAuthMiddleware),

@@ -21,6 +21,17 @@ export class EarningRouter {
   createRouter() {
     const router = Router();
 
+
+    /**
+     * @openapi
+     * /api/earnings/wallet:
+     *   get:
+     *     tags: [Earnings]
+     *     summary: GET /wallet
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.get(
       "/wallet",
       this.providerAuthMiddleware.authenticate.bind(
@@ -29,6 +40,17 @@ export class EarningRouter {
       this.earningController.getWalletBalance.bind(this.earningController)
     );
 
+
+    /**
+     * @openapi
+     * /api/earnings/withdraw:
+     *   post:
+     *     tags: [Earnings]
+     *     summary: POST /withdraw
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.post(
       "/withdraw",
       this.providerAuthMiddleware.authenticate.bind(
@@ -37,12 +59,34 @@ export class EarningRouter {
       this.earningController.withdraw.bind(this.earningController)
     );
 
+
+    /**
+     * @openapi
+     * /api/earnings/admin/payout/:id:
+     *   patch:
+     *     tags: [Earnings]
+     *     summary: PATCH /admin/payout/:id
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.patch(
       "/admin/payout/:id",
       this.adminAuthMiddleware.authenticate.bind(this.adminAuthMiddleware),
       this.earningController.confirmPayout.bind(this.earningController)
     );
 
+
+    /**
+     * @openapi
+     * /api/earnings/admin/payouts:
+     *   get:
+     *     tags: [Earnings]
+     *     summary: GET /admin/payouts
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.get(
       "/admin/payouts",
       this.adminAuthMiddleware.authenticate.bind(this.adminAuthMiddleware),

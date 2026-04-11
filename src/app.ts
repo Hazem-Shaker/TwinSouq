@@ -33,12 +33,15 @@ import {
   UserAuthMiddleware,
   AdminAuthMiddleware,
 } from './shared/middlewares/auth';
-
 import logger from './shared/utils/logger'; // Logger
+import { setupSwagger } from './shared/utils/swagger';
 
 // Factory function to create an Express app
 const appFactory = () => {
   const app: Application = express();
+
+  // Setup Swagger API Documentation
+  setupSwagger(app);
 
   // Middleware to parse JSON
   app.use(express.urlencoded({ extended: true }));
@@ -65,6 +68,28 @@ const appFactory = () => {
   app.use(languageMiddleware);
   app.use(i18nMiddleware);
 
+  /**
+   * @openapi
+   * /health:
+   *   post:
+   *     tags: [General]
+   *     summary: Check system health
+   *     description: Responds if the app is currently running. Note this is a POST route at /api/health.
+   *     responses:
+   *       200:
+   *         description: Server is running
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 success:
+   *                   type: boolean
+   *                   example: true
+   *                 message:
+   *                   type: string
+   *                   example: Server is running
+   */
   // Health check route
   app.post('/api/health', (req, res) => {
     res.sendSuccess('Server is running', req.body, 200);

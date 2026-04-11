@@ -30,6 +30,17 @@ export class ProviderRouter {
   createRouter() {
     const router = Router();
 
+
+    /**
+     * @openapi
+     * /api/providers/requests:
+     *   post:
+     *     tags: [Providers]
+     *     summary: POST /requests
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.post(
       "/requests",
       this.userAuthMiddleware.authenticateWithProviderRole.bind(
@@ -55,6 +66,17 @@ export class ProviderRouter {
       )
     );
 
+
+    /**
+     * @openapi
+     * /api/providers/requests:
+     *   get:
+     *     tags: [Providers]
+     *     summary: GET /requests
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.get(
       "/requests",
       this.adminAuthMiddleware.authenticate.bind(this.adminAuthMiddleware),
@@ -62,12 +84,34 @@ export class ProviderRouter {
       this.providerController.listProviderRequests.bind(this.providerController)
     );
 
+
+    /**
+     * @openapi
+     * /api/providers/requests/:providerRequestId:
+     *   get:
+     *     tags: [Providers]
+     *     summary: GET /requests/:providerRequestId
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.get(
       "/requests/:providerRequestId",
       this.adminAuthMiddleware.authenticate.bind(this.adminAuthMiddleware),
       this.providerController.getProviderRequest.bind(this.providerController)
     );
 
+
+    /**
+     * @openapi
+     * /api/providers/requests/:providerRequestId/accept:
+     *   post:
+     *     tags: [Providers]
+     *     summary: POST /requests/:providerRequestId/accept
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.post(
       "/requests/:providerRequestId/accept",
       this.adminAuthMiddleware.authenticate.bind(this.adminAuthMiddleware),
@@ -76,6 +120,17 @@ export class ProviderRouter {
       )
     );
 
+
+    /**
+     * @openapi
+     * /api/providers/requests/:providerRequestId/reject:
+     *   delete:
+     *     tags: [Providers]
+     *     summary: DELETE /requests/:providerRequestId/reject
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.delete(
       "/requests/:providerRequestId/reject",
       this.adminAuthMiddleware.authenticate.bind(this.adminAuthMiddleware),
@@ -84,6 +139,17 @@ export class ProviderRouter {
       )
     );
 
+
+    /**
+     * @openapi
+     * /api/providers/stats:
+     *   get:
+     *     tags: [Providers]
+     *     summary: GET /stats
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.get(
       "/stats",
       this.providerAuthMiddleware.authenticate.bind(
@@ -92,6 +158,17 @@ export class ProviderRouter {
       this.providerController.getProviderStats.bind(this.providerController)
     );
 
+
+    /**
+     * @openapi
+     * /api/providers/home-page:
+     *   get:
+     *     tags: [Providers]
+     *     summary: GET /home-page
+     *     responses:
+     *       200:
+     *         description: Success
+     */
     router.get(
       "/home-page",
       this.providerAuthMiddleware.authenticate.bind(
